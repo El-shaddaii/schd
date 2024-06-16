@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Schedule</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'scheduler/style.css' %}">
+</head>
+<body>
+    <h1>Event Schedule</h1>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    {% for day in days %}
+                    <th>{{ day.name }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for time_slot in time_slots %}
+                <tr>
+                    <td>{{ time_slot.start_time }} - {{ time_slot.end_time }}</td>
+                    {% for day in days %}
+                    <td>
+                        {% for event in events %}
+                            {% if event.day == day and event.time_slot == time_slot %}
+                                {{ event.title }}<br>
+                                <small>{{ event.user.username }}</small>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
